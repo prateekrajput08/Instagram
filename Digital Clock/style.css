@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'LED.Font';
+    src: url('fonts/LEDFont.woff2') format('woff2'),
+        url('fonts/LEDFont.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+*{
+    background: #000000;
+    align-items: center;
+    justify-self: center;
+}
+.digital_clock {
+   width: 40%;
+   background: #000000;
+   color: #ffffff;
+   display: flex;
+   border-radius: 2rem;
+   user-select: none;
+   padding: 0 2rem;
+   border: 0.5rem solid#2d2d2d;
+}
+.week{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    color: #2d2d2d;
+    font-weight: bold;
+    font-family: 'LED.Font', sans-serif;
+}
+
+.time {
+    font-family: 'LED.Font', sans-serif;
+}
+
+.hour,
+.min,
+.dot {
+    display: inline-block;
+    font-size: 13rem;
+}
+
+.min{
+    display: math;
+}
+
+.invisible{
+    visibility: hidden;
+}
