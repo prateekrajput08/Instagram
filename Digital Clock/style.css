@@ -11,6 +11,7 @@
     background: #000000;
     align-items: center;
     justify-self: center;
+    margin-top: 20px;
 }
 .digital_clock {
    width: 40%;
