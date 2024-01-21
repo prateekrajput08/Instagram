@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+    background: #000000;
+}
+
+
+.image{
+    background-image: url("ram.png");
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    overflow: hidden;
+    background-size: contain;
+    -webkit-background-clip: text;
+    background-attachment: fixed;
+    background-clip: text;
+    -webkit-text-fill-color: rgba(225, 9, 9, 0);
+}
