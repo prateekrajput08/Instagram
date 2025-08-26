@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Encryptet | Encrypt Your Text</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Poppins font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <style>
+    /* ====== DARK THEME STYLE ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #121212;
+      color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background: #1f1f1f;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 20px;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-arrow {
+      display: inline-block;
+      vertical-align: middle;
+      transition: transform 0.3s ease;
+      width: 24px;
+      height: 24px;
+    }
+
+    .title-arrow.rotated {
+      transform: rotate(180deg);
+    }
+
+    .tab-group {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      background: #2a2a2a;
+      border: none;
+      color: #ccc;
+      padding: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .tab-btn.selected {
+      background: #ef476f;
+      color: #fff;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-size: 14px;
+      color: #bbb;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    input[type='text'] {
+      min-height: 38px;
+      resize: none;
+    }
+
+    textarea::placeholder,
+    input::placeholder {
+      color: #777;
+    }
+
+    button.encrypt-btn,
+    button.decrypt-btn {
+      margin-top: 15px;
+      width: 100%;
+      background: #ef476f;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      user-select: none;
+    }
+
+    button.encrypt-btn:hover,
+    button.decrypt-btn:hover {
+      background: #d3345d;
+    }
+
+    .output {
+      background: #2a2a2a;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 14px;
+      color: #00ffcc;
+      min-height: 40px;
+      display: none; /* Hide initially */
+    }
+
+    .crafted {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .crafted .author-link {
+      color: #ef476f;
+      text-decoration: none;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 380px) {
+      .tab-btn {
+        min-width: 100px;
+        font-size: 13px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title" id="main-title">
+      Text
+      <span class="title-arrow" id="title-arrow">
+        <!-- Your previous lock arrow SVG from original code -->
+        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+      </span>
+      Encrypt
+    </div>
+
+    <div class="tab-group">
+      <button class="tab-btn selected" id="tab-encrypt">
+        <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        Encrypt Text
+      </button>
+
+      <button class="tab-btn" id="tab-decrypt">
+        <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 019.9-1"></path>
+        </svg>
+        Decrypt Text
+      </button>
+    </div>
+
+    <!-- ENCRYPT SECTION -->
+    <div id="encrypt-section" class="block">
+      <label for="message">1. Type a message</label>
+      <textarea id="message" rows="3" placeholder="Hello World or any message"></textarea>
+      <label for="password">2. Set a password</label>
+      <input id="password" type="text" placeholder="E.g. 1234" />
+      <button class="encrypt-btn" id="encryptBtn">
+        Encrypt Text
+      </button>
+      <div class="output" id="encryptOutput"></div>
+    </div>
+
+    <!-- DECRYPT SECTION -->
+    <div id="decrypt-section" class="block" style="display: none;">
+      <label for="encrypted">1. Paste Encrypted Code</label>
+      <textarea id="encrypted" rows="3" placeholder="Paste encrypted code here"></textarea>
+      <label for="decPassword">2. Enter Password</label>
+      <input id="decPassword" type="text" placeholder="E.g. 1234" />
+      <button class="decrypt-btn" id="decryptBtn">
+        Decrypt Text
+      </button>
+      <div class="output" id="decryptOutput"></div>
+    </div>
+
+    <div class="crafted">
+      Created with <span style="color: #ef476f; font-weight: 700;">❤️</span> by
+      <a href="https://github.com/prateekrajput08" class="author-link">Prateek</a>
+    </div>
+  </div>
+
+  <script>
+    // Simple XOR + base64 encrypt
+    function simpleEncrypt(text, password) {
+      let encoded = '';
+      for (let i = 0; i < text.length; i++) {
+        const charCode = text.charCodeAt(i) ^ password.charCodeAt(i % password.length);
+        encoded += String.fromCharCode(charCode);
+      }
+      return btoa(encoded);
+    }
+
+    function simpleDecrypt(encodedText, password) {
+      try {
+        const decoded = atob(encodedText);
+        let result = '';
+        for (let i = 0; i < decoded.length; i++) {
+          const charCode = decoded.charCodeAt(i) ^ password.charCodeAt(i % password.length);
+          result += String.fromCharCode(charCode);
+        }
+        return result;
+      } catch (e) {
+        return '⚠️ Invalid Code or Password!';
+      }
+    }
+
+    // DOM elements
+    const encryptTab = document.getElementById('tab-encrypt');
+    const decryptTab = document.getElementById('tab-decrypt');
+    const encryptSection = document.getElementById('encrypt-section');
+    const decryptSection = document.getElementById('decrypt-section');
+
+    const encryptOutput = document.getElementById('encryptOutput');
+    const decryptOutput = document.getElementById('decryptOutput');
+
+    const titleArrow = document.getElementById('title-arrow');
+    const mainTitle = document.getElementById('main-title');
+
+    // Tab switching logic and arrow rotation & text change
+    encryptTab.onclick = () => {
+      encryptTab.classList.add('selected');
+      decryptTab.classList.remove('selected');
+      encryptSection.style.display = 'block';
+      decryptSection.style.display = 'none';
+      encryptOutput.style.display = 'none';
+      decryptOutput.style.display = 'none';
+
+      // Arrow normal (point right)
+      titleArrow.classList.remove('rotated');
+      mainTitle.childNodes[0].textContent = "Text ";
+      mainTitle.childNodes[2].textContent = " Encrypt";
+    };
+
+    decryptTab.onclick = () => {
+      decryptTab.classList.add('selected');
+      encryptTab.classList.remove('selected');
+      decryptSection.style.display = 'block';
+      encryptSection.style.display = 'none';
+      encryptOutput.style.display = 'none';
+      decryptOutput.style.display = 'none';
+
+      // Arrow rotated (point left)
+      titleArrow.classList.add('rotated');
+      mainTitle.childNodes[0].textContent = "Text ";
+      mainTitle.childNodes[2].textContent = " Encrypt";
+    };
+
+    // Encrypt button click
+    document.getElementById('encryptBtn').onclick = () => {
+      const text = document.getElementById('message').value.trim();
+      const password = document.getElementById('password').value;
+      if (!text || !password) {
+        encryptOutput.style.color = '#ff5c5c';
+        encryptOutput.innerText = '⚠️ Please enter both text and password';
+        encryptOutput.style.display = 'block';
+        return;
+      }
+      const encrypted = simpleEncrypt(text, password);
+      encryptOutput.style.color = '#00ffcc';
+      encryptOutput.innerText = encrypted;
+      encryptOutput.style.display = 'block';
+    };
+
+    // Decrypt button click
+    document.getElementById('decryptBtn').onclick = () => {
+      const code = document.getElementById('encrypted').value.trim();
+      const password = document.getElementById('decPassword').value;
+      if (!code || !password) {
+        decryptOutput.style.color = '#ff5c5c';
+        decryptOutput.innerText = '⚠️ Please enter encrypted code and password';
+        decryptOutput.style.display = 'block';
+        return;
+      }
+      const decrypted = simpleDecrypt(code, password);
+      // If warning message, color red, else cyan
+      if (decrypted.startsWith('⚠️')) {
+        decryptOutput.style.color = '#ff5c5c';
+      } else {
+        decryptOutput.style.color = '#00ffcc';
+      }
+      decryptOutput.innerText = decrypted;
+      decryptOutput.style.display = 'block';
+    };
+  </script>
+</body>
+</html>
